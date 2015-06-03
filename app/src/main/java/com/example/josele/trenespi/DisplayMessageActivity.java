@@ -48,8 +48,8 @@ public class DisplayMessageActivity extends ActionBarActivity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        textView.setTextSize(40);
-        textView.setText(conexionCL.getRecivido());
+        textView2.setTextSize(40);
+        textView2.setText(conexionCL.getRecivido());
 
 
 
@@ -114,12 +114,12 @@ if (socket.isConnected()) {
         try {
             InetAddress serverAddr = InetAddress.getByName(SERVER_IP);
             socket = new Socket(serverAddr, SERVERPORT);
-          //  BufferedReader entrada = new BufferedReader(
-            //        new InputStreamReader(socket.getInputStream()));
             PrintWriter salida = new PrintWriter(
                     new OutputStreamWriter(socket.getOutputStream()),true);
+            BufferedReader entrada = new BufferedReader(
+                    new InputStreamReader(socket.getInputStream()));
             salida.print((char) enviado.length());
-            //recivido=entrada.readLine();
+            recivido=entrada.readLine();
             salida.println(enviado);
 
             //recivido=recivido+" " +entrada.readLine();
