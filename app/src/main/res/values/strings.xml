@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">TrenesPi</string>
 
-    <string name="hello_world">Hello world!</string>
+    <string name="button_send">Send</string>
     <string name="action_settings">Settings</string>
+    <string name="edit_message">Editbox</string>
+    <string name="title_activity_display_message">MyMessage</string>
+    <string name="action_search">Search</string>
+
+    <string name="hello_world">Hello world!</string>
 </resources>
