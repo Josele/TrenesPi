@@ -4,6 +4,9 @@
     <string name="button_send">Send</string>
     <string name="action_settings">Settings</string>
     <string name="edit_message">Editbox</string>
+    <string name="port">Port</string>
+    <string name="iprasp">Server IP</string>
+    <string name="receive">Message</string>
     <string name="title_activity_display_message">MyMessage</string>
     <string name="action_search">Search</string>
 

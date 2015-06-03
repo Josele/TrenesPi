@@ -13,27 +13,31 @@ import android.widget.Toast;
 
 
 public class MainActivity extends ActionBarActivity {
-    public final static String EXTRA_MESSAGE = "com.mycompany.myfirstapp.MESSAGE";
+    public final static String IP_MESSAGE = "com.mycompany.myfirstapp.MESSAGE";
+    public final static String PORT_MESSAGE = "com.mycompany.myfirstapp.MESSAGE2";
     private Button boton;
-    private EditText txtmsg;
+    private EditText serverip,port;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         boton = (Button) findViewById(R.id.button);
-        txtmsg=(EditText) findViewById(R.id.edit_message);
+        serverip=(EditText) findViewById(R.id.iprasp);
+        port=(EditText) findViewById(R.id.port);
         boton.setOnClickListener(new View.OnClickListener(){
          @Override
         public void  onClick(View v){
-             if (txtmsg.getText().toString().trim().length() > 0) {
+             if ((port.getText().toString().trim().length() > 0)&&(serverip.getText().toString().trim().length() > 0)) {
              Intent intent = new Intent(MainActivity.this, DisplayMessageActivity.class);
-             String message = txtmsg.getText().toString();
-             intent.putExtra(EXTRA_MESSAGE, message);
+             String message = serverip.getText().toString();
+             String message2 = port.getText().toString();
+             intent.putExtra(IP_MESSAGE, message);
+             intent.putExtra(PORT_MESSAGE, message2);
              startActivity(intent);
          }else{
                  Toast.makeText(getApplicationContext(),
-                         "Please enter your comand", Toast.LENGTH_LONG).show();
+                         "Please enter Server IP and Port", Toast.LENGTH_LONG).show();
 
              }
          }
@@ -64,8 +68,8 @@ public class MainActivity extends ActionBarActivity {
         }
     }/*
     public void sendMessage(View view) {
-        //The Intent represents an app’s "intent to do something."
-        // You can use intents for a wide variety of tasks, but most often they’re used to start another activity
+        //The Intent represents an app's "intent to do something."
+        // You can use intents for a wide variety of tasks, but most often they're used to start another activity
         Intent intent = new Intent(this, DisplayMessageActivity.class);
         EditText editText = (EditText) findViewById(R.id.edit_message);
         String message = editText.getText().toString();

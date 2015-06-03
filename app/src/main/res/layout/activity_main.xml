@@ -1,17 +1,35 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"  tools:context=".MainActivity"
-    android:id="@+id/relativeLayout1"
+    android:id="@+id/linearLayout1"
     android:orientation="horizontal"
     android:background="@color/body_background_green"
     >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
 
-    <EditText android:id="@+id/edit_message"
+    android:layout_marginTop="200dp"
+    >
+
+    <EditText android:id="@+id/iprasp"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:hint="@string/edit_message"
+        android:hint="@string/iprasp"
         android:background="@color/white"
         android:layout_weight="3"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        />
+    <EditText android:id="@+id/port"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:hint="@string/port"
+        android:background="@color/white"
+        android:layout_weight="1"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
         android:padding="10dp"
@@ -20,12 +38,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/button_send"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:onClick="sendMessage"
         android:id="@+id/button"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
         android:padding="10dp"
         />
-
+</LinearLayout>
 </LinearLayout>
