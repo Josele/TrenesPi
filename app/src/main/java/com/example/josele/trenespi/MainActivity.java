@@ -9,18 +9,36 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 
 public class MainActivity extends ActionBarActivity {
     public final static String EXTRA_MESSAGE = "com.mycompany.myfirstapp.MESSAGE";
     private Button boton;
+    private EditText txtmsg;
 
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         boton = (Button) findViewById(R.id.button);
+        txtmsg=(EditText) findViewById(R.id.edit_message);
+        boton.setOnClickListener(new View.OnClickListener(){
+         @Override
+        public void  onClick(View v){
+             if (txtmsg.getText().toString().trim().length() > 0) {
+             Intent intent = new Intent(MainActivity.this, DisplayMessageActivity.class);
+             String message = txtmsg.getText().toString();
+             intent.putExtra(EXTRA_MESSAGE, message);
+             startActivity(intent);
+         }else{
+                 Toast.makeText(getApplicationContext(),
+                         "Please enter your comand", Toast.LENGTH_LONG).show();
+
+             }
+         }
+        });
+
     }
 
 
@@ -44,7 +62,7 @@ public class MainActivity extends ActionBarActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
+    }/*
     public void sendMessage(View view) {
         //The Intent represents an app’s "intent to do something."
         // You can use intents for a wide variety of tasks, but most often they’re used to start another activity
@@ -53,7 +71,7 @@ public class MainActivity extends ActionBarActivity {
         String message = editText.getText().toString();
         intent.putExtra(EXTRA_MESSAGE, message);
         startActivity(intent);
-    }
+    }*/
 
 
 }

@@ -2,12 +2,19 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"  tools:context=".MainActivity"
     android:id="@+id/relativeLayout1"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:background="@color/body_background_green"
+    >
+
     <EditText android:id="@+id/edit_message"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:hint="@string/edit_message"
+        android:background="@color/white"
         android:layout_weight="3"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
         />
     <Button
         android:layout_width="0dp"
@@ -16,6 +23,9 @@
         android:layout_weight="1"
         android:onClick="sendMessage"
         android:id="@+id/button"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
         />
 
 </LinearLayout>
