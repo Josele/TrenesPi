@@ -27,6 +27,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_display_message);
         TextView textView =(EditText) findViewById(R.id.info);
         TextView textView2=(EditText) findViewById(R.id.receive);
     //    getSupportActionBar().setDisplayHomeAsUpEnabled(true); // con este no peta :S pero funciona igual que sin ello.
@@ -37,7 +38,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
 
         textView.setTextSize(40);
         textView.setText(SERVER_IP + ":" + SERVERPORT);
-        setContentView(textView);
+
 
         conexionCL = new clientThread(SERVER_IP,SERVERPORT);
         Thread t=new Thread(conexionCL);
@@ -49,7 +50,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
         }
         textView.setTextSize(40);
         textView.setText(conexionCL.getRecivido());
-        setContentView(textView2);
+
 
 
     }
@@ -84,10 +85,11 @@ public class DisplayMessageActivity extends ActionBarActivity {
 
 
 class clientThread implements Runnable {
-    private static  int SERVERPORT ;
-    private static  String SERVER_IP;
-    private static Socket socket = null;
-    private static String recivido;
+    private  int SERVERPORT ;
+    private  String SERVER_IP;
+    private  Socket socket = null;
+    private  String enviado="train speed 10";
+    private  String recivido;
     public clientThread(String SERVER_IP,int SERVERPORT){
         this.SERVER_IP=SERVER_IP;
         this.SERVERPORT=SERVERPORT;
@@ -95,7 +97,7 @@ class clientThread implements Runnable {
 
     }
 
-    public static String getRecivido() {
+    public  String getRecivido() {
         return recivido;
     }
 
@@ -112,13 +114,16 @@ if (socket.isConnected()) {
         try {
             InetAddress serverAddr = InetAddress.getByName(SERVER_IP);
             socket = new Socket(serverAddr, SERVERPORT);
-            BufferedReader entrada = new BufferedReader(
-                    new InputStreamReader(socket.getInputStream()));
+          //  BufferedReader entrada = new BufferedReader(
+            //        new InputStreamReader(socket.getInputStream()));
             PrintWriter salida = new PrintWriter(
                     new OutputStreamWriter(socket.getOutputStream()),true);
-            salida.println("train speed 10");
+            salida.print((char)enviado.length());
+            //recivido=entrada.readLine();
+            salida.println(enviado);
 
-            recivido=entrada.readLine();
+            //recivido=recivido+" " +entrada.readLine();
+            socket.close();
         } catch (UnknownHostException e1) {
 
             e1.printStackTrace();

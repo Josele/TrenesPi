@@ -31,7 +31,12 @@ android:background="@color/body_background_green"
         android:background="@color/white"
         android:padding="10dp"
     />
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
+</LinearLayout>
 
 </LinearLayout>
 
