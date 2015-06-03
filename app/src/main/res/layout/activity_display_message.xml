@@ -14,7 +14,7 @@ android:background="@color/body_background_green"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <EditText android:id="@+id/info"
+    <TextView android:id="@+id/info"
 
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
@@ -22,20 +22,56 @@ android:background="@color/body_background_green"
         android:padding="10dp"
         />
 
-    <EditText android:id="@+id/receive"
+    <ListView
+        android:id="@+id/list_view_messages"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@null"
+        android:divider="@null"
+        android:transcriptMode="alwaysScroll"
+        android:stackFromBottom="true">
+    </ListView>
+
+    <TextView android:id="@+id/receive"
         android:layout_marginTop="200dp"
-        android:layout_marginLeft="140dp"
-        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+
+        android:background="@color/body_background_green"
+        android:layout_height="fill_parent"
         android:layout_width="wrap_content"
         android:hint="@string/receive"
-        android:background="@color/white"
+
         android:padding="10dp"
     />
 <LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+    <EditText android:id="@+id/port"
 
+        android:layout_width="0dp"
+        android:layout_height="fill_parent"
+        android:layout_weight="2"
+        android:hint="@string/button_send"
+        android:background="@color/white"
+
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        />
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:hint="@string/button_send"
+
+
+        android:id="@+id/button2"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        />
 </LinearLayout>
 
 </LinearLayout>

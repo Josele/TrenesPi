@@ -28,8 +28,8 @@ public class DisplayMessageActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_message);
-        TextView textView =(EditText) findViewById(R.id.info);
-        TextView textView2=(EditText) findViewById(R.id.receive);
+        TextView textView =(TextView) findViewById(R.id.info);
+        TextView textView2= (TextView) findViewById(R.id.receive);
     //    getSupportActionBar().setDisplayHomeAsUpEnabled(true); // con este no peta :S pero funciona igual que sin ello.
        // getActionBar().setDisplayHomeAsUpEnabled(true); //peta y funciona sin ello. Tal vez por que no cambiamos de layout
         Intent intent = getIntent();
@@ -118,7 +118,7 @@ if (socket.isConnected()) {
             //        new InputStreamReader(socket.getInputStream()));
             PrintWriter salida = new PrintWriter(
                     new OutputStreamWriter(socket.getOutputStream()),true);
-            salida.print((char)enviado.length());
+            salida.print((char) enviado.length());
             //recivido=entrada.readLine();
             salida.println(enviado);
 
