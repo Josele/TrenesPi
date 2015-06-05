@@ -1,7 +1,10 @@
 package com.example.josele.trenespi;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
+import android.content.SharedPreferences;
+//import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,7 +15,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity {
+    public static final String PREFS_NAME = "MyPrefsFile";
     public final static String IP_MESSAGE = "com.mycompany.myfirstapp.MESSAGE";
     public final static String PORT_MESSAGE = "com.mycompany.myfirstapp.MESSAGE2";
     private Button boton;
@@ -22,22 +26,34 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         boton = (Button) findViewById(R.id.button);
-        serverip=(EditText) findViewById(R.id.iprasp);
-        port=(EditText) findViewById(R.id.port);
-        boton.setOnClickListener(new View.OnClickListener(){
-         @Override
-        public void  onClick(View v){
-             if ((port.getText().toString().trim().length() > 0)&&(serverip.getText().toString().trim().length() > 0)) {
-             Intent intent = new Intent(MainActivity.this, DisplayMessageActivity.class);
-             String message = serverip.getText().toString();
-             String message2 = port.getText().toString();
-             intent.putExtra(IP_MESSAGE, message);
-             intent.putExtra(PORT_MESSAGE, message2);
-             startActivity(intent);
-         }else{
-                 Toast.makeText(getApplicationContext(),
-                         "Please enter Server IP and Port", Toast.LENGTH_LONG).show();
+        serverip = (EditText) findViewById(R.id.iprasp);
+        serverip.setText( settings.getString("pip", ""));
+        port = (EditText) findViewById(R.id.port);
+        port.setText( settings.getString("port", ""));
+        boton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if ((port.getText().toString().trim().length() > 0) && (serverip.getText().toString().trim().length() > 0)) {
+                    Intent intent = new Intent(MainActivity.this, DisplayMessageActivity.class);
+                    String message = serverip.getText().toString();
+                    String message2 = port.getText().toString();
+                    intent.putExtra(IP_MESSAGE, message);
+                    intent.putExtra(PORT_MESSAGE, message2);
+                    SharedPreferences settings = getApplicationContext().getSharedPreferences(
+                            PREFS_NAME, 0);
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putString("pip", message);
+                    editor.putString("port", message2);
+
+                    // Commit the edits!
+                    editor.apply();
+
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "Please enter Server IP and Port", Toast.LENGTH_LONG).show();
 
              }
          }

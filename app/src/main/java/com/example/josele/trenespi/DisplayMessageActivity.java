@@ -1,10 +1,12 @@
 package com.example.josele.trenespi;
 
+
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
+//import android.view.Menu;
+import android.support.v7.app.ActionBarActivity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -19,20 +21,24 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
+
+import java.net.SocketException;
 import java.util.concurrent.ExecutionException;
+
+import javax.xml.transform.Result;
 
 
 public class DisplayMessageActivity extends ActionBarActivity {
   //  private Socket socket;
     private static  String SERVERPORT ;
     private static  String SERVER_IP;
-    private clientThread conexionCL;
+    private clientThread conexionCL=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_message);
+
         TextView textView =(TextView) findViewById(R.id.info);
 
 
@@ -51,19 +57,18 @@ public class DisplayMessageActivity extends ActionBarActivity {
             public void onClick(View v) {
                 EditText boxsend= (EditText) findViewById(R.id.boxsend);
                 TextView textView2= (TextView) findViewById(R.id.receive);
+                textView2.setTextSize(10);
                 Toast.makeText(getApplicationContext(),
                         "Sent", Toast.LENGTH_LONG).show();
 
                 if (boxsend.getText().toString().trim().length() > 0) {
                     conexionCL = new clientThread();
-                    conexionCL.execute(SERVER_IP,SERVERPORT,boxsend.getText().toString());
+                    conexionCL.execute(SERVER_IP, SERVERPORT, boxsend.getText().toString());
+                    boxsend.setText("");
 
-                    textView2.setTextSize(10);
                     try {
                         textView2.setText(conexionCL.get());
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } catch (ExecutionException e) {
+                    } catch (InterruptedException | ExecutionException e) {
                         e.printStackTrace();
                     }
                 } else {
@@ -74,6 +79,19 @@ public class DisplayMessageActivity extends ActionBarActivity {
             }
         });
 
+    }
+
+
+    @Override
+    protected void onPause(){
+    super.onPause();
+        try {
+            if( (conexionCL!=null)&&conexionCL.close())
+                Toast.makeText(getApplicationContext(),
+                        "The Socket died", Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 /*
         conexionCL = new clientThread(SERVER_IP,SERVERPORT);
@@ -95,9 +113,10 @@ public class DisplayMessageActivity extends ActionBarActivity {
     protected void onStop() {
         super.onStop();
         try {
-           if( conexionCL.close())
+           if( (conexionCL!=null)&&conexionCL.close())
             Toast.makeText(getApplicationContext(),
                     "The Socket died", Toast.LENGTH_LONG).show();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -126,7 +145,7 @@ public class DisplayMessageActivity extends ActionBarActivity {
   */    private Socket socket = null;
 
 
-      private String mensaje;
+      protected String mensaje;
       private String recivido;
 
 /*
@@ -143,8 +162,15 @@ public class DisplayMessageActivity extends ActionBarActivity {
        * @return True when the sockets has been closed
        * @throws IOException
        */
+
+      protected void onCancelled (Result result)  {
+          super.onCancelled(String.valueOf(result));
+
+
+      }
+
       public boolean close() throws IOException {
-          if (socket.isConnected()) {
+          if (socket.isConnected()&socket.isConnected()) {
               socket.close();
               return true;
           }
@@ -169,10 +195,6 @@ return false;
                     recivido = entrada.readLine();
 
                     socket.close();
-                } catch (UnknownHostException e1) {
-
-                    e1.printStackTrace();
-
                 } catch (IOException e1) {
                     e1.printStackTrace();
 

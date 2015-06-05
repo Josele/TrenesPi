@@ -1,77 +1,110 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:layout_height="match_parent"
     tools:context="com.example.josele.trenespi.DisplayMessageActivity"
 android:id="@+id/linearLayout"
-android:orientation="horizontal"
+
 android:background="@color/body_background_green"
     >
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
 
-    <TextView android:id="@+id/info"
-
-        android:layout_height="wrap_content"
+    <RelativeLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:background="@color/white"
-        android:padding="10dp"
-        />
+        android:layout_height="match_parent">
 
-    <ListView
-        android:id="@+id/list_view_messages"
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@null"
-        android:divider="@null"
-        android:transcriptMode="alwaysScroll"
-        android:stackFromBottom="true">
-    </ListView>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
 
-    <TextView android:id="@+id/receive"
-        android:layout_marginTop="200dp"
-        android:layout_marginLeft="20dp"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="403dp"
+                android:orientation="vertical"
+                >
 
-        android:background="@color/body_background_green"
-        android:layout_height="fill_parent"
-        android:layout_width="wrap_content"
-        android:hint="@string/receive"
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0">
 
-        android:padding="10dp"
-    />
-<LinearLayout
-    android:layout_width="fill_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal">
-    <EditText
-        android:id="@+id/boxsend"
-        android:layout_width="0dp"
-        android:layout_height="fill_parent"
-        android:layout_weight="2"
+                    <TextView android:id="@+id/info"
 
-        android:background="@color/white"
+                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        android:background="@color/white"
+                        android:padding="10dp"
+                        />
+                </LinearLayout>
 
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
-        android:padding="10dp"
-        />
-    <Button
-        android:id="@+id/sender"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:hint="@string/button_send"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
-        android:padding="10dp"
-        />
-</LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="268dp"
+                    android:layout_weight="0.60"
+                    >
 
-</LinearLayout>
+                    <ListView
+                        android:id="@+id/listview"
+                        android:scrollbars="vertical"
+                        android:layout_width="fill_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="fill_vertical"
+                        android:layout_alignParentTop="true"
+                        >
+                    </ListView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0">
+
+                    <TextView android:id="@+id/receive"
+
+                        android:background="@color/body_background_green"
+                        android:layout_height="fill_parent"
+                        android:layout_width="fill_parent"
+                        android:hint="@string/receive"
+
+                        android:layout_weight="3" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/boxsend"
+                    android:layout_width="0dp"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="2"
+                    android:background="@color/white"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:padding="10dp"
+                    android:inputType="text"
+                    />
+                <Button
+                    android:id="@+id/sender"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+
+                    android:layout_weight="1"
+                    android:hint="@string/button_send"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:padding="10dp"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+
+    </RelativeLayout>
 
 </LinearLayout>
