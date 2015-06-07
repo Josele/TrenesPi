@@ -22,37 +22,28 @@ public class MainActivity extends ActionBarActivity {
     public final static String IP_MESSAGE = "com.mycompany.myfirstapp.MESSAGE";
     public final static String PORT_MESSAGE = "com.mycompany.myfirstapp.MESSAGE2";
     private Button boton;
-    private EditText serverip,port;
+
     private Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+
         toolbar= (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
-        boton = (Button) findViewById(R.id.button);
-        serverip = (EditText) findViewById(R.id.iprasp);
-        serverip.setText( settings.getString("pip", ""));
-        port = (EditText) findViewById(R.id.port);
-        port.setText( settings.getString("port", ""));
+        boton=(Button)findViewById(R.id.button);
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ((port.getText().toString().trim().length() > 0) && (serverip.getText().toString().trim().length() > 0)) {
-                    Intent intent = new Intent(MainActivity.this, DisplayMessageActivity.class);
-                    String message = serverip.getText().toString();
-                    String message2 = port.getText().toString();
+                SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+                Intent intent = new Intent(MainActivity.this, DisplayMessageActivity.class);
+                String message = settings.getString("pip", null);
+                String message2 =  settings.getString("port", null);
+                if ((message!=null)&&(message2!=null)) {
+
                     intent.putExtra(IP_MESSAGE, message);
                     intent.putExtra(PORT_MESSAGE, message2);
-                    SharedPreferences settings = getApplicationContext().getSharedPreferences(
-                            PREFS_NAME, 0);
-                    SharedPreferences.Editor editor = settings.edit();
-                    editor.putString("pip", message);
-                    editor.putString("port", message2);
 
-                    // Commit the edits!
-                    editor.apply();
 
                     startActivity(intent);
                 } else {
@@ -82,6 +73,9 @@ public class MainActivity extends ActionBarActivity {
                 return true;
             case R.id.action_settings:
                 //action of settings
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
