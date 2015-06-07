@@ -1,49 +1,55 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent"  tools:context=".MainActivity"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/linearLayout1"
-
-    android:background="@color/body_background_green"
-    >
-<LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
+    android:background="@color/body_background_green"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
 
-    android:layout_marginTop="200dp"
-    >
+    <include
+        android:id="@+id/app_bar"
+        layout="@layout/app_bar" />
 
-    <EditText android:id="@+id/iprasp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:hint="Server ip"
-        android:background="@color/white"
-        android:layout_weight="3"
-        android:layout_marginBottom="10dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="10dp"
-        android:padding="10dp"
-        />
-    <EditText android:id="@+id/port"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:hint="@string/port"
-        android:background="@color/white"
-        android:layout_weight="1"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
-        android:padding="10dp"
-        />
-    <Button
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="@string/button_send"
-        android:layout_weight="2"
-        android:onClick="sendMessage"
-        android:id="@+id/button"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
-        android:padding="10dp"
-        />
+        android:layout_marginTop="100dp">
+
+        <EditText
+            android:id="@+id/iprasp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="3"
+            android:background="@color/white"
+            android:hint="Server ip"
+            android:padding="10dp" />
+
+        <EditText
+            android:id="@+id/port"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:hint="@string/port"
+            android:padding="10dp" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="2"
+            android:hint="@string/button_send"
+
+            android:padding="10dp" />
+    </LinearLayout>
 </LinearLayout>
-</RelativeLayout>

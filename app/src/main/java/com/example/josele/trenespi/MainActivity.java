@@ -1,11 +1,12 @@
 package com.example.josele.trenespi;
 
 import android.app.Activity;
-import android.content.Context;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
-//import android.support.v7.app.ActionBarActivity;
+
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -13,20 +14,23 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.support.v7.widget.Toolbar;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends ActionBarActivity {
     public static final String PREFS_NAME = "MyPrefsFile";
     public final static String IP_MESSAGE = "com.mycompany.myfirstapp.MESSAGE";
     public final static String PORT_MESSAGE = "com.mycompany.myfirstapp.MESSAGE2";
     private Button boton;
     private EditText serverip,port;
-
+    private Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        toolbar= (Toolbar) findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);
         boton = (Button) findViewById(R.id.button);
         serverip = (EditText) findViewById(R.id.iprasp);
         serverip.setText( settings.getString("pip", ""));

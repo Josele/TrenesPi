@@ -1,19 +1,25 @@
 package com.example.josele.trenespi;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 //import android.view.Menu;
+//import android.support.v7.app.ActionBarActivity;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.support.v7.app.ActionBarActivity;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -22,7 +28,6 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 
-import java.net.SocketException;
 import java.util.concurrent.ExecutionException;
 
 import javax.xml.transform.Result;
@@ -33,11 +38,15 @@ public class DisplayMessageActivity extends ActionBarActivity {
     private static  String SERVERPORT ;
     private static  String SERVER_IP;
     private clientThread conexionCL=null;
-
+    private Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_message);
+        toolbar= (Toolbar) findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);
+    getSupportActionBar().setHomeButtonEnabled(true);
+    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         TextView textView =(TextView) findViewById(R.id.info);
 
@@ -123,6 +132,13 @@ public class DisplayMessageActivity extends ActionBarActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_display_message, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -133,7 +149,8 @@ public class DisplayMessageActivity extends ActionBarActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-
+        if(id==android.R.id.home)
+            NavUtils.navigateUpFromSameTask(this);
         return super.onOptionsItemSelected(item);
     }
 }
@@ -157,24 +174,14 @@ public class DisplayMessageActivity extends ActionBarActivity {
           this.mensaje = enviado;
       }*/
 
-      /**
-       * Try to close a socket of the thread
-       * @return True when the sockets has been closed
-       * @throws IOException
-       */
 
-      protected void onCancelled (Result result)  {
-          super.onCancelled(String.valueOf(result));
-
-
-      }
 
       public boolean close() throws IOException {
-          if (socket.isConnected()&socket.isConnected()) {
-              socket.close();
-              return true;
+          if (!(socket.isConnected()&socket.isConnected())) {
+              return false;
           }
-return false;
+          socket.close();
+          return true;
       }
 
       @Override
