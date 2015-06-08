@@ -2,6 +2,7 @@ package com.example.josele.trenespi;
 
 import android.app.Activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
 
@@ -21,7 +23,8 @@ public class MainActivity extends ActionBarActivity {
     public static final String PREFS_NAME = "MyPrefsFile";
     public final static String IP_MESSAGE = "com.mycompany.myfirstapp.MESSAGE";
     public final static String PORT_MESSAGE = "com.mycompany.myfirstapp.MESSAGE2";
-    private Button boton;
+    private ImageButton boton;
+    private ImageButton boton2;
 
     private Toolbar toolbar;
     @Override
@@ -31,11 +34,12 @@ public class MainActivity extends ActionBarActivity {
 
         toolbar= (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
-        boton=(Button)findViewById(R.id.button);
+        boton=(ImageButton)findViewById(R.id.button_display_message);
+        boton2=(ImageButton)findViewById(R.id.button_settings);
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+                SharedPreferences settings = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
                 Intent intent = new Intent(MainActivity.this, DisplayMessageActivity.class);
                 String message = settings.getString("pip", null);
                 String message2 =  settings.getString("port", null);
@@ -53,7 +57,15 @@ public class MainActivity extends ActionBarActivity {
              }
          }
         });
+        boton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
 
+                startActivity(intent);
+
+            }
+        });
     }
 
 
@@ -64,7 +76,7 @@ public class MainActivity extends ActionBarActivity {
         inflater.inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
     }
-    @Override
+  /*  @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
         switch (item.getItemId()) {
@@ -80,7 +92,8 @@ public class MainActivity extends ActionBarActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }/*
+    }*/
+    /*
     public void sendMessage(View view) {
         //The Intent represents an app's "intent to do something."
         // You can use intents for a wide variety of tasks, but most often they're used to start another activity

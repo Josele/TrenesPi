@@ -28,7 +28,8 @@
                 android:background="@color/white"
                 android:hint="Server ip"
                 android:padding="10dp"
-                android:digits="0123456789."/>
+                android:digits="0123456789."
+                android:maxLength="15"/>
 
             <EditText
                 android:id="@+id/port"
@@ -40,7 +41,8 @@
                 android:background="@color/white"
                 android:hint="@string/port"
                 android:padding="10dp"
-                android:digits="0123456789"/>
+                android:digits="0123456789"
+                android:maxLength="6"/>
 
             <Button
                 android:id="@+id/button"

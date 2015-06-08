@@ -1,6 +1,7 @@
 package com.example.josele.trenespi;
 
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
@@ -17,13 +18,13 @@ import android.widget.Toast;
 public class SettingsActivity extends ActionBarActivity {
     public static final String PREFS_NAME = "MyPrefsFile";
     private EditText serverip,port;
-
+    private SharedPreferences settings;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+         settings = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -40,8 +41,8 @@ public class SettingsActivity extends ActionBarActivity {
                     String message = serverip.getText().toString();
                     String message2 = port.getText().toString();
 
-                    SharedPreferences settings = getApplicationContext().getSharedPreferences(
-                            PREFS_NAME, 0);
+                     settings = getApplicationContext().getSharedPreferences(
+                            PREFS_NAME, Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = settings.edit();
                     editor.putString("pip", message);
                     editor.putString("port", message2);

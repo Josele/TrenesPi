@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">TrenesPi</string>
 
-    <string name="button_send">Send</string>
+    <string name="button_send">Trains</string>
+    <string name="button_settings">Settings</string>
     <string name="action_settings">Settings</string>
     <string name="edit_message">Editbox</string>
     <string name="port">Port</string>
