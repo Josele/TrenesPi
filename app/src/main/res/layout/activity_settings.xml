@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/body_background_green"
+    android:background="@color/body_background_white"
     tools:context="com.example.josele.trenespi.SettingsActivity"
     android:orientation="vertical">
 
@@ -13,18 +13,19 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="100dp">
+            android:layout_height="match_parent"
+            android:layout_marginTop="100dp"
+            android:orientation="vertical">
 
             <EditText
                 android:id="@+id/iprasp"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="10dp"
-                android:layout_weight="3"
+
                 android:background="@color/white"
                 android:hint="Server ip"
                 android:padding="10dp"
@@ -33,11 +34,11 @@
 
             <EditText
                 android:id="@+id/port"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_weight="1"
+
                 android:background="@color/white"
                 android:hint="@string/port"
                 android:padding="10dp"
@@ -45,15 +46,20 @@
                 android:maxLength="6"/>
 
             <Button
+                android:background="@drawable/flat_selector"
+                android:textColor="@android:color/white"
                 android:id="@+id/button"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_weight="2"
-                android:hint="@string/button_send"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
 
-                android:padding="10dp" />
+
+                android:layout_marginTop="10dp"
+                android:hint="@string/button_send"
+                android:padding="10dp"
+                android:layout_gravity="bottom" />
+
+
         </LinearLayout>
-    </LinearLayout>
+
+</LinearLayout>
 
