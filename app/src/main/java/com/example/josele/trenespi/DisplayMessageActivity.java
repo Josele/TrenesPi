@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,7 +22,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.net.InetAddress;
+
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
@@ -31,18 +32,17 @@ import java.util.concurrent.ExecutionException;
 //import android.support.v7.app.ActionBarActivity;
 
 
-public class DisplayMessageActivity extends ActionBarActivity {
+public class DisplayMessageActivity extends AppCompatActivity {
     //  private Socket socket;
     private static String SERVERPORT;
     private static String SERVER_IP;
     private clientThread conexionCL = null;
-    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_message);
-        toolbar = (Toolbar) findViewById(R.id.app_bar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -61,22 +61,31 @@ public class DisplayMessageActivity extends ActionBarActivity {
                 EditText boxsend = (EditText) findViewById(R.id.boxsend);
                 TextView textView2 = (TextView) findViewById(R.id.receive);
                 textView2.setTextSize(10);
-                Toast.makeText(getApplicationContext(),
-                        "Sent", Toast.LENGTH_LONG).show();
+
 
                 if (boxsend.getText().toString().trim().length() > 0) {
                     conexionCL = new clientThread();
                     conexionCL.execute(SERVER_IP, SERVERPORT, boxsend.getText().toString());
                     boxsend.setText("");
 
-                    try {
+                    try { if (conexionCL.get()==null){
+
+                        Toast.makeText(getApplicationContext(),
+                                "Unconnected", Toast.LENGTH_LONG).show();
+
+                    }else{
+                        Toast.makeText(getApplicationContext(),
+                                "Sent", Toast.LENGTH_LONG).show();
+
+                    }
                         textView2.setText(conexionCL.get());
+
                     } catch (InterruptedException | ExecutionException e) {
                         e.printStackTrace();
                     }
                 } else {
                     Toast.makeText(getApplicationContext(),
-                            "Please enter Server IP and Port", Toast.LENGTH_LONG).show();
+                            "None Command", Toast.LENGTH_LONG).show();
 
                 }
             }
@@ -180,11 +189,11 @@ class clientThread extends AsyncTask<String, Integer, String> {
     protected String doInBackground(String... params) {
         if (!params[0].isEmpty() && !params[1].isEmpty() && !params[2].isEmpty()) {
             this.mensaje = params[2];
-            try {
+            try {recivido="Reception isn't working";
                 //InetAddress serverAddr = InetAddress.getByName(params[0]);
                 SocketAddress sockaddr = new InetSocketAddress(params[0], Integer.parseInt(params[1]));
                 Socket socket = new Socket();
-                socket.connect(sockaddr, 1000);
+                socket.connect(sockaddr, 2000);
                 //socket = new Socket(serverAddr, Integer.parseInt(params[1]));
                 PrintWriter salida = new PrintWriter(
                         new OutputStreamWriter(socket.getOutputStream()), true);
