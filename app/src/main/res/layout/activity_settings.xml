@@ -6,60 +6,17 @@
     tools:context="com.example.josele.trenespi.SettingsActivity"
     android:orientation="vertical">
 
-    <include
-        android:id="@+id/app_bar"
-        layout="@layout/app_bar" />
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="100dp"
-            android:orientation="vertical">
+        <include
+            android:id="@+id/app_bar"
+            layout="@layout/app_bar" />
+    <FrameLayout
+        android:id="@+id/content_frame"
 
-            <EditText
-                android:id="@+id/iprasp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-                android:background="@color/white"
-                android:hint="Server ip"
-                android:padding="10dp"
-                android:digits="0123456789."
-                android:maxLength="15"/>
-
-            <EditText
-                android:id="@+id/port"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-
-                android:background="@color/white"
-                android:hint="@string/port"
-                android:padding="10dp"
-                android:digits="0123456789"
-                android:maxLength="6"/>
-
-            <Button
-                android:background="@drawable/flat_selector"
-                android:textColor="@android:color/white"
-                android:id="@+id/button"
-                android:layout_width="match_parent"
-                android:layout_height="36dp"
-
-
-                android:layout_marginTop="10dp"
-                android:hint="@string/button_send"
-                android:padding="10dp"
-                android:layout_gravity="bottom" />
-
-
-        </LinearLayout>
 
 </LinearLayout>
 

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout="@layout/activity_settings">
+    <EditTextPreference
+        android:id="@+id/iprasp"
+        android:title="Server IP"
+        android:height="?attr/actionBarSize"
+        android:key="pip"
+        android:digits="0123456789."
+        android:maxLength="15"
+        android:summary="Please provide the IP of TrainPi"></EditTextPreference>
+    <EditTextPreference
+        android:id="@+id/puerto"
+        android:title="Port"
+        android:key="port"
+        android:digits="0123456789"
+        android:summary="Please provide the Port"
+        android:maxLength="6"></EditTextPreference>
+
+
+</PreferenceScreen>

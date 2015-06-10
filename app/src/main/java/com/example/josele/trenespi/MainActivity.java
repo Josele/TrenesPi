@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,7 +21,6 @@ import android.support.v7.widget.Toolbar;
 
 
 public class MainActivity extends ActionBarActivity {
-    public static final String PREFS_NAME = "MyPrefsFile";
     public final static String IP_MESSAGE = "com.mycompany.myfirstapp.MESSAGE";
     public final static String PORT_MESSAGE = "com.mycompany.myfirstapp.MESSAGE2";
     private ImageButton boton;
@@ -39,7 +39,8 @@ public class MainActivity extends ActionBarActivity {
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences settings = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+                SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
                 Intent intent = new Intent(MainActivity.this, DisplayMessageActivity.class);
                 String message = settings.getString("pip", null);
                 String message2 =  settings.getString("port", null);

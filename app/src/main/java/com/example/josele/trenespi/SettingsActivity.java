@@ -3,29 +3,37 @@ package com.example.josele.trenespi;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceActivity;
+import android.preference.PreferenceFragment;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 
 public class SettingsActivity extends ActionBarActivity {
-    public static final String PREFS_NAME = "MyPrefsFile";
-    private EditText serverip,port;
-    private SharedPreferences settings;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-
-         settings = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getFragmentManager().beginTransaction().replace(R.id.content_frame, new MyPreferenceFragment()).commit();
+
+
+        // settings = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+  /*      Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -57,6 +65,7 @@ public class SettingsActivity extends ActionBarActivity {
                 }
             }
         });
+*/
 
     }
 
@@ -79,5 +88,16 @@ public class SettingsActivity extends ActionBarActivity {
             NavUtils.navigateUpFromSameTask(this);
         return id == R.id.action_settings || super.onOptionsItemSelected(item);
 
+    }
+
+    public static class MyPreferenceFragment extends PreferenceFragment
+    {
+        @Override
+        public void onCreate(final Bundle savedInstanceState)
+        {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.preferences);
+
+        }
     }
 }
