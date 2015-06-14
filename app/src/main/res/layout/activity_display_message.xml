@@ -83,6 +83,7 @@
                     <EditText
                         android:id="@+id/boxsend"
 <<<<<<< HEAD
+<<<<<<< HEAD
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="10dp"
@@ -91,6 +92,8 @@
                         android:layout_weight="1.86"
 
 =======
+=======
+>>>>>>> Material_Design
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
 
@@ -106,7 +109,11 @@
                         android:id="@+id/sender"
                         android:layout_width="0dp"
 <<<<<<< HEAD
+<<<<<<< HEAD
                         android:layout_height="match_parent"
+=======
+                        android:layout_height="40dp"
+>>>>>>> Material_Design
 =======
                         android:layout_height="40dp"
 >>>>>>> Material_Design
