@@ -1,20 +1,16 @@
 package com.example.josele.trenespi;
-
-import android.app.Activity;
-
-import android.content.Context;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -24,20 +20,17 @@ import android.support.v7.widget.Toolbar;
 public class MainActivity extends AppCompatActivity {
     public final static String IP_MESSAGE = "com.mycompany.myfirstapp.MESSAGE";
     public final static String PORT_MESSAGE = "com.mycompany.myfirstapp.MESSAGE2";
-    private ImageButton boton;
-    private ImageButton boton2;
 
-    private Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
 
-        toolbar= (Toolbar) findViewById(R.id.app_bar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
-        boton=(ImageButton)findViewById(R.id.button_display_message);
-        boton2=(ImageButton)findViewById(R.id.button_settings);
+        ImageButton boton = (ImageButton) findViewById(R.id.button_display_message);
+        ImageButton boton2 = (ImageButton) findViewById(R.id.button_settings);
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -45,8 +38,8 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(MainActivity.this, DisplayMessageActivity.class);
                 String message = settings.getString("pip", null);
-                String message2 =  settings.getString("port", null);
-                if ((message!=null)&&(message2!=null)) {
+                String message2 = settings.getString("port", null);
+                if ((message != null) && (message2 != null)) {
 
                     intent.putExtra(IP_MESSAGE, message);
                     intent.putExtra(PORT_MESSAGE, message2);
@@ -57,15 +50,45 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),
                             "Please enter Server IP and Port", Toast.LENGTH_LONG).show();
 
-             }
-         }
+                }
+            }
         });
         boton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
 
-                startActivity(intent);
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                LayoutInflater inflater = MainActivity.this.getLayoutInflater();
+
+                View prompt = inflater.inflate(R.layout.password, null);
+
+                builder.setView(prompt)
+                        // Add action buttons
+                        .setPositiveButton(R.string.signin, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                                AlertDialog.Builder builder= (AlertDialog.Builder) dialog;
+
+                                 EditText pass = (EditText) findViewById(R.id.password);
+                                if (pass != null && pass.getText().toString() == "trenespi") {
+                                    Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                                    startActivity(intent);
+                                } else {
+                                    Toast.makeText(getApplicationContext(),
+                                            "Wrong password", Toast.LENGTH_LONG).show();
+
+                                }
+
+
+                            }
+                        })
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+                AlertDialog dialog = builder.create();
+            dialog.show();
 
             }
         });

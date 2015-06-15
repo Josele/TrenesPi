@@ -72,8 +72,6 @@ public class DisplayMessageActivity extends AppCompatActivity {
         Button Cross_chang = (Button) findViewById(R.id.slcross);
         Button Stop_t = (Button) findViewById(R.id.sls);
         Button Secure_mode = (Button) findViewById(R.id.slant);
-        //    getSupportActionBar().setDisplayHomeAsUpEnabled(true); // con este no peta :S pero funciona igual que sin ello.
-        // getActionBar().setDisplayHomeAsUpEnabled(true); //peta y funciona sin ello. Tal vez por que no cambiamos de layout
         Intent intent = getIntent();
         SERVER_IP = intent.getStringExtra(MainActivity.IP_MESSAGE);
         SERVERPORT = intent.getStringExtra(MainActivity.PORT_MESSAGE);
@@ -163,10 +161,10 @@ public class DisplayMessageActivity extends AppCompatActivity {
                     if (boxstatus.getText().toString().trim().length()>0){
                     if(boxstatus.getText().toString()=="R")
                     {  message="changer set 0";
-                        boxstatus.setText("L");
+                        boxstatus.setText("R");
                     }
                         else {
-                        boxstatus.setText("R");
+                        boxstatus.setText("L");
                         message = "changer set 1";
                     }
                         Toast.makeText(getApplicationContext(), "Cross changed", Toast.LENGTH_SHORT).show();}
@@ -189,29 +187,24 @@ public class DisplayMessageActivity extends AppCompatActivity {
                 case R.id.slant:
                     boxstatus = (TextView) findViewById(R.id.txanti);
                     if (boxstatus.getText().toString().trim().length()>0){
-                        if(boxstatus.getText().toString()=="0")
-                        {  message="barrier set 0";
-                            boxstatus.setText("DOWN");
+                        if(boxstatus.getText().toString()=="Enable")
+                        {  message="anti enable 0";
+                            boxstatus.setText("Disable");
                         }
                         else {
-                            boxstatus.setText("UP");
-                            message = "barrier set 1";
+                            boxstatus.setText("Enable");
+                            message = "anti enable 1";
                         }
-                    Toast.makeText(getApplicationContext(), "Barrier changed", Toast.LENGTH_SHORT).show();}
+                   }
 
                     break;
                 case R.id.sls:
                     boxstatus = (TextView) findViewById(R.id.Barrierview);
                     if (boxstatus.getText().toString().trim().length()>0){
-                        if(boxstatus.getText().toString()=="UP")
-                        {  message="barrier set 0";
-                            boxstatus.setText("DOWN");
-                        }
-                        else {
-                            boxstatus.setText("UP");
-                            message = "barrier set 1";
-                        }
-                    Toast.makeText(getApplicationContext(), "Barrier changed", Toast.LENGTH_SHORT).show();}
+
+                            message = "s";
+
+                    Toast.makeText(getApplicationContext(), "emergency stop", Toast.LENGTH_SHORT).show();}
 
                     break;
             }
