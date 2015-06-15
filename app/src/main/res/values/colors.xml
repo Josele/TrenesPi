@@ -11,7 +11,8 @@
     <color name="ColorPrimaryDark">#4CAF50</color>
     <color name="ColorPrimaryText">#000000</color>
 
-        <color name="blue_pressed">@android:color/holo_blue_dark</color>
+        <color name="blue_train">#0097A7</color>
+        <color name="yellow_train">#FFEB3B</color>
         <color name="blue_normal">@android:color/holo_blue_light</color>
 <color name="colorHighlight">#B6B6B6</color>
 </resources>

@@ -1,6 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:expandable="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-
     android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,120 +13,71 @@
         layout="@layout/app_bar" />
 
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-
+        <LinearLayout
+            android:id="@+id/principalcontainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/principalcontainer"
                 android:layout_width="match_parent"
-                android:layout_height="403dp"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
 
-                <LinearLayout
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/info"
+
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:padding="10dp" />
+            </LinearLayout>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView"
+        >
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-                    android:orientation="horizontal">
+                    <com.andexert.expandablelayout.library.ExpandableLayout
+                        android:id="@+id/first"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        expandable:el_contentLayout="@layout/content_train"
+                        expandable:el_headerLayout="@layout/header_train" />
 
-                    <TextView
-                        android:id="@+id/info"
 
+                    <com.andexert.expandablelayout.library.ExpandableLayout
+                        android:id="@+id/second"
+
+                        android:layout_marginTop="15dp"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/white"
-                        android:padding="10dp" />
-                </LinearLayout>
+                        expandable:el_contentLayout="@layout/content_changer"
+                        expandable:el_headerLayout="@layout/header_changer" />
+                    <com.andexert.expandablelayout.library.ExpandableLayout
+                        android:id="@+id/third"
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="268dp"
-                    android:layout_weight="0.60"
-                    android:orientation="horizontal">
-
-                    <ListView
-                        android:id="@+id/listview"
-                        android:layout_width="fill_parent"
+                        android:layout_marginTop="15dp"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_alignParentTop="true"
-                        android:layout_gravity="fill_vertical"
-                        android:scrollbars="vertical"></ListView>
+                        expandable:el_contentLayout="@layout/content_other"
+                        expandable:el_headerLayout="@layout/header_other" />
 
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/layoutmessage"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/receive"
-
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_weight="3"
-                        android:background="@color/body_background_green"
-
-                        android:hint="@string/receive" />
-                </LinearLayout>
-
-                <LinearLayout
-
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:orientation="horizontal">
-
-                    <EditText
-                        android:id="@+id/boxsend"
-<<<<<<< HEAD
-<<<<<<< HEAD
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
-                        android:layout_weight="1.86"
-
-=======
-=======
->>>>>>> Material_Design
-                        android:layout_width="wrap_content"
-                        android:layout_height="30dp"
-
-                        android:layout_marginLeft="10dp"
-                        android:layout_weight="2"
->>>>>>> Material_Design
-                        android:background="@color/white"
-                        android:inputType="text"
-                        android:hint="@string/button_send"
-                         />
-
-                    <Button
-                        android:id="@+id/sender"
-                        android:layout_width="0dp"
-<<<<<<< HEAD
-<<<<<<< HEAD
-                        android:layout_height="match_parent"
-=======
-                        android:layout_height="40dp"
->>>>>>> Material_Design
-=======
-                        android:layout_height="40dp"
->>>>>>> Material_Design
-
-                        android:layout_weight="1"
-                        android:hint="@string/button_send"
-                        />
-                </LinearLayout>
             </LinearLayout>
 
+    </ScrollView>
+</LinearLayout>
+        </LinearLayout>
 
 
-
-    </RelativeLayout>
 
 </LinearLayout>
