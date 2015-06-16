@@ -71,8 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
                                  EditText pass = (EditText) findViewById(R.id.password);
                                 if (pass != null && pass.getText().toString() == "trenespi") {
-                                    Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-                                    startActivity(intent);
+
                                 } else {
                                     Toast.makeText(getApplicationContext(),
                                             "Wrong password", Toast.LENGTH_LONG).show();
@@ -89,7 +88,8 @@ public class MainActivity extends AppCompatActivity {
                         });
                 AlertDialog dialog = builder.create();
             dialog.show();
-
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(intent);
             }
         });
     }

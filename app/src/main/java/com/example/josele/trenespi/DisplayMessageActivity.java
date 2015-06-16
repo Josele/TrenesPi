@@ -124,6 +124,36 @@ public class DisplayMessageActivity extends AppCompatActivity {
         });
 */
     }
+    public void sendCmd(String message){
+        if (message!=null&&message.trim().length() > 0) {
+            conexionCL = new clientThread();
+            conexionCL.execute(SERVER_IP, SERVERPORT, message);
+
+
+            try {
+                if (conexionCL.get() == null) {
+
+                    Toast.makeText(getApplicationContext(),
+                            "Unconnected", Toast.LENGTH_LONG).show();
+
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "Sent", Toast.LENGTH_LONG).show();
+
+                }
+                //     textView2.setText(conexionCL.get());
+
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Toast.makeText(getApplicationContext(),
+                    "None Command", Toast.LENGTH_LONG).show();
+
+        }
+
+
+    }
     final View.OnClickListener Sender_string = new View.OnClickListener() {
         public void onClick(final View v) {
             String message=null;
@@ -158,21 +188,22 @@ public class DisplayMessageActivity extends AppCompatActivity {
                     break;
                 case R.id.slcross:
                     boxstatus = (TextView) findViewById(R.id.Crossview);
-                    if (boxstatus.getText().toString().trim().length()>0){
-                    if(boxstatus.getText().toString()=="R")
+
+                    if(boxstatus.getText().toString()=="L")
                     {  message="changer set 0";
                         boxstatus.setText("R");
                     }
                         else {
                         boxstatus.setText("L");
+
                         message = "changer set 1";
                     }
-                        Toast.makeText(getApplicationContext(), "Cross changed", Toast.LENGTH_SHORT).show();}
+                        Toast.makeText(getApplicationContext(), "Cross changed", Toast.LENGTH_SHORT).show();
 
                     break;
                 case R.id.slbarrier:
                     boxstatus = (TextView) findViewById(R.id.Barrierview);
-                    if (boxstatus.getText().toString().trim().length()>0){
+
                         if(boxstatus.getText().toString()=="UP")
                         {  message="barrier set 0";
                             boxstatus.setText("DOWN");
@@ -181,63 +212,42 @@ public class DisplayMessageActivity extends AppCompatActivity {
                             boxstatus.setText("UP");
                             message = "barrier set 1";
                         }
-                    Toast.makeText(getApplicationContext(), "Barrier changed", Toast.LENGTH_SHORT).show();}
+                    Toast.makeText(getApplicationContext(), "Barrier changed", Toast.LENGTH_SHORT).show();
 
                     break;
                 case R.id.slant:
                     boxstatus = (TextView) findViewById(R.id.txanti);
-                    if (boxstatus.getText().toString().trim().length()>0){
+
                         if(boxstatus.getText().toString()=="Enable")
                         {  message="anti enable 0";
+                            sendCmd("anti cancel");
                             boxstatus.setText("Disable");
                         }
                         else {
                             boxstatus.setText("Enable");
                             message = "anti enable 1";
                         }
-                   }
+
 
                     break;
                 case R.id.sls:
-                    boxstatus = (TextView) findViewById(R.id.Barrierview);
-                    if (boxstatus.getText().toString().trim().length()>0){
+
+
 
                             message = "s";
 
-                    Toast.makeText(getApplicationContext(), "emergency stop", Toast.LENGTH_SHORT).show();}
+                    Toast.makeText(getApplicationContext(), "emergency stop", Toast.LENGTH_SHORT).show();
 
                     break;
             }
             if (boxsend!=null)
                boxsend.setText("");
-            if (message!=null&&message.trim().length() > 0) {
-                conexionCL = new clientThread();
-                conexionCL.execute(SERVER_IP, SERVERPORT, message);
-
-
-                try {
-                    if (conexionCL.get() == null) {
-
-                        Toast.makeText(getApplicationContext(),
-                                "Unconnected", Toast.LENGTH_LONG).show();
-
-                    } else {
-                        Toast.makeText(getApplicationContext(),
-                                "Sent", Toast.LENGTH_LONG).show();
-
-                    }
-               //     textView2.setText(conexionCL.get());
-
-                } catch (InterruptedException | ExecutionException e) {
-                    e.printStackTrace();
+            sendCmd(message);
                 }
-            } else {
-                Toast.makeText(getApplicationContext(),
-                        "None Command", Toast.LENGTH_LONG).show();
 
-            }
-                }
     };
+
+
     final View.OnClickListener close_expa = new View.OnClickListener() {
         public void onClick(final View v) {
             ExpandableLayout closeLayout;
