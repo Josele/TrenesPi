@@ -5,16 +5,17 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBarActivity;
+
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
+
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,7 +42,6 @@ public class DisplayMessageActivity extends AppCompatActivity {
     private static String SERVERPORT;
     private static String SERVER_IP;
     private clientThread conexionCL = null;
-    private final String[] array = {"Train", "Changer", "Android", "Info"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,9 +66,15 @@ public class DisplayMessageActivity extends AppCompatActivity {
         expandableLayout.setOnClickListener(close_expa);
         expandableLayout2.setOnClickListener(close_expa);
         expandableLayout3.setOnClickListener(close_expa);
-        Button Train_renfe = (Button) findViewById(R.id.slrenfe);
+       SeekBar bar = (SeekBar)findViewById(R.id.seekBar); // make seekbar object
+        bar.setMax(28);
+        bar.setOnSeekBarChangeListener(Sender_seekbar);
+
+        SeekBar bar2 = (SeekBar)findViewById(R.id.seekBar2); // make seekbar object
+       bar2.setMax(28);
+        bar2.setOnSeekBarChangeListener(Sender_seekbar);
         Button Barrier_chang = (Button) findViewById(R.id.slbarrier);
-        Button Train_diesel = (Button) findViewById(R.id.sldiesel);
+
         Button Cross_chang = (Button) findViewById(R.id.slcross);
         Button Stop_t = (Button) findViewById(R.id.sls);
         Button Secure_mode = (Button) findViewById(R.id.slant);
@@ -77,8 +83,7 @@ public class DisplayMessageActivity extends AppCompatActivity {
         SERVERPORT = intent.getStringExtra(MainActivity.PORT_MESSAGE);
         textView.setTextSize(25);
         textView.setText(SERVER_IP + ":" + SERVERPORT);
-        Train_renfe.setOnClickListener(Sender_string);
-        Train_diesel.setOnClickListener(Sender_string);
+
         Cross_chang.setOnClickListener(Sender_string);
         Barrier_chang.setOnClickListener(Sender_string);
         Stop_t.setOnClickListener(Sender_string);
@@ -154,40 +159,80 @@ public class DisplayMessageActivity extends AppCompatActivity {
 
 
     }
+    final SeekBar.OnSeekBarChangeListener Sender_seekbar = new SeekBar.OnSeekBarChangeListener() {
+
+
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                int value;
+            TextView valueview;
+            switch ( seekBar.getId()){
+                case R.id.seekBar:
+                    value = seekBar.getProgress();
+                    valueview=(TextView)findViewById(R.id.txrenfe);
+                    valueview.setText(Integer.toString(value));
+
+                    break;
+                case R.id.seekBar2:
+                    value = seekBar.getProgress();
+                    valueview=(TextView)findViewById(R.id.txdiesel);
+                    valueview.setText(Integer.toString(value));
+
+
+                    break;}
+
+        }
+
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+           int value;
+            String message=null;
+            TextView colorTrain;
+            switch ( seekBar.getId()){
+            case R.id.seekBar:
+                value = seekBar.getProgress();
+
+                sendCmd("train select 3");
+                message="train speed "+ Integer.toString(value);
+                 colorTrain = (TextView) findViewById(R.id.idtrain);
+
+
+                colorTrain.setBackgroundResource(R.color.yellow_train);
+
+                Toast.makeText(getApplicationContext(),"New speed for renfe", Toast.LENGTH_SHORT).show();
+            break;
+            case R.id.seekBar2:
+                value = seekBar.getProgress();
+
+                sendCmd("train select 4");
+                message="train speed "+ Integer.toString(value);
+                 colorTrain = (TextView) findViewById(R.id.idtrain);
+
+
+                colorTrain.setBackgroundResource(R.color.blue_train);
+
+                Toast.makeText(getApplicationContext(),"New speed for diesel" +
+                        "", Toast.LENGTH_SHORT).show();
+
+            break;}
+            if (message!=null)
+            sendCmd(message);
+        }
+    };
     final View.OnClickListener Sender_string = new View.OnClickListener() {
         public void onClick(final View v) {
             String message=null;
             EditText boxsend=null;
-            TextView boxstatus=null;
+            TextView boxstatus;
             //Inform the user the button has been clicked
             switch(v.getId()) {
-                case R.id.slrenfe:
-                boxsend = (EditText) findViewById(R.id.txrenfe);
 
-                    if (boxsend.getText().toString().trim().length()>0) {
-                        sendCmd("train select 3");
-                        message="train speed "+ boxsend.getText().toString();
-                        TextView colorTrain = (TextView) findViewById(R.id.idtrain);
-
-
-                            colorTrain.setBackgroundResource(R.color.yellow_train);
-
-                        Toast.makeText(getApplicationContext(),"New speed for renfe", Toast.LENGTH_SHORT).show();
-                    }break;
-                case R.id.sldiesel:
-                    boxsend = (EditText) findViewById(R.id.txdiesel);
-                    if (boxsend.getText().toString().trim().length()>0){
-                        sendCmd("train select 4");
-                        message="train speed "+ boxsend.getText().toString();
-                        TextView colorTrain = (TextView) findViewById(R.id.idtrain);
-
-
-                        colorTrain.setBackgroundResource(R.color.blue_train);
-
-                        Toast.makeText(getApplicationContext(),"New speed for diesel" +
-                                "", Toast.LENGTH_SHORT).show();}
-
-                    break;
                 case R.id.slcross:
                     boxstatus = (TextView) findViewById(R.id.Crossview);
 
@@ -400,7 +445,7 @@ class clientThread extends AsyncTask<String, Integer, String> {
                 //InetAddress serverAddr = InetAddress.getByName(params[0]);
                 SocketAddress sockaddr = new InetSocketAddress(params[0], Integer.parseInt(params[1]));
                 Socket socket = new Socket();
-                socket.connect(sockaddr, 2000);
+                socket.connect(sockaddr, 1000);
                 //socket = new Socket(serverAddr, Integer.parseInt(params[1]));
                 PrintWriter salida = new PrintWriter(
                         new OutputStreamWriter(socket.getOutputStream()), true);

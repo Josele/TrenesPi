@@ -60,27 +60,27 @@ public class MainActivity extends AppCompatActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 LayoutInflater inflater = MainActivity.this.getLayoutInflater();
 
-                View prompt = inflater.inflate(R.layout.password, null);
+                final View prompt = inflater.inflate(R.layout.password, null);
 
-                builder.setView(prompt)
+                builder.setView(prompt);
+                final EditText pass = (EditText) prompt.findViewById(R.id.password);
                         // Add action buttons
-                        .setPositiveButton(R.string.signin, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int id) {
-                                AlertDialog.Builder builder= (AlertDialog.Builder) dialog;
+                       builder .setPositiveButton(R.string.signin, new DialogInterface.OnClickListener() {
+                           @Override
+                           public void onClick(DialogInterface dialog, int id) {
 
-                                 EditText pass = (EditText) findViewById(R.id.password);
-                                if (pass != null && pass.getText().toString() == "trenespi") {
+                               if ((pass != null) && pass.getText().toString().equals("trenespi") ) {
+                                   Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+                                   startActivity(intent);
+                               } else {
+                                   Toast.makeText(getApplicationContext(),
+                                           "Wrong password "+ pass.getText().toString(), Toast.LENGTH_LONG).show();
 
-                                } else {
-                                    Toast.makeText(getApplicationContext(),
-                                            "Wrong password", Toast.LENGTH_LONG).show();
-
-                                }
+                               }
 
 
-                            }
-                        })
+                           }
+                       })
                         .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
@@ -88,8 +88,7 @@ public class MainActivity extends AppCompatActivity {
                         });
                 AlertDialog dialog = builder.create();
             dialog.show();
-                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-                startActivity(intent);
+
             }
         });
     }
