@@ -66,9 +66,9 @@ public class DisplayMessageActivity extends AppCompatActivity {
         expandableLayout.setOnClickListener(close_expa);
         expandableLayout2.setOnClickListener(close_expa);
         expandableLayout3.setOnClickListener(close_expa);
-        Button Train_select = (Button) findViewById(R.id.sltrain);
+        Button Train_renfe = (Button) findViewById(R.id.slrenfe);
         Button Barrier_chang = (Button) findViewById(R.id.slbarrier);
-        Button Train_speed = (Button) findViewById(R.id.slspeed);
+        Button Train_diesel = (Button) findViewById(R.id.sldiesel);
         Button Cross_chang = (Button) findViewById(R.id.slcross);
         Button Stop_t = (Button) findViewById(R.id.sls);
         Button Secure_mode = (Button) findViewById(R.id.slant);
@@ -77,8 +77,8 @@ public class DisplayMessageActivity extends AppCompatActivity {
         SERVERPORT = intent.getStringExtra(MainActivity.PORT_MESSAGE);
         textView.setTextSize(25);
         textView.setText(SERVER_IP + ":" + SERVERPORT);
-        Train_select.setOnClickListener(Sender_string);
-        Train_speed.setOnClickListener(Sender_string);
+        Train_renfe.setOnClickListener(Sender_string);
+        Train_diesel.setOnClickListener(Sender_string);
         Cross_chang.setOnClickListener(Sender_string);
         Barrier_chang.setOnClickListener(Sender_string);
         Stop_t.setOnClickListener(Sender_string);
@@ -161,29 +161,31 @@ public class DisplayMessageActivity extends AppCompatActivity {
             TextView boxstatus=null;
             //Inform the user the button has been clicked
             switch(v.getId()) {
-                case R.id.sltrain:
-                boxsend = (EditText) findViewById(R.id.txtrain);
+                case R.id.slrenfe:
+                boxsend = (EditText) findViewById(R.id.txrenfe);
 
                     if (boxsend.getText().toString().trim().length()>0) {
-
-                        message="train select "+ boxsend.getText().toString();
+                        sendCmd("train select 3");
+                        message="train speed "+ boxsend.getText().toString();
                         TextView colorTrain = (TextView) findViewById(R.id.idtrain);
-                        if (Integer.parseInt(boxsend.getText().toString())==4) {
 
-                            colorTrain.setBackgroundResource(R.color.blue_train);
-                        }
-                        if(Integer.parseInt(boxsend.getText().toString())==3){
 
                             colorTrain.setBackgroundResource(R.color.yellow_train);
 
-                        }
-                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"New speed for renfe", Toast.LENGTH_SHORT).show();
                     }break;
-                case R.id.slspeed:
-                    boxsend = (EditText) findViewById(R.id.txspeed);
+                case R.id.sldiesel:
+                    boxsend = (EditText) findViewById(R.id.txdiesel);
                     if (boxsend.getText().toString().trim().length()>0){
-                    message="train speed "+ boxsend.getText().toString();
-                    Toast.makeText(getApplicationContext(), "New speed", Toast.LENGTH_SHORT).show();}
+                        sendCmd("train select 4");
+                        message="train speed "+ boxsend.getText().toString();
+                        TextView colorTrain = (TextView) findViewById(R.id.idtrain);
+
+
+                        colorTrain.setBackgroundResource(R.color.blue_train);
+
+                        Toast.makeText(getApplicationContext(),"New speed for diesel" +
+                                "", Toast.LENGTH_SHORT).show();}
 
                     break;
                 case R.id.slcross:
