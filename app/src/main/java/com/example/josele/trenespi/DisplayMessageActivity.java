@@ -20,18 +20,24 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.andexert.expandablelayout.library.ExpandableLayout;
-import com.andexert.expandablelayout.library.ExpandableLayoutListView;
 
+import org.apache.commons.io.IOUtils;
+
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
+import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
+import java.net.URL;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.locks.Lock;
 
 //import android.view.Menu;
 //import android.support.v7.app.ActionBarActivity;
@@ -42,6 +48,8 @@ public class DisplayMessageActivity extends AppCompatActivity {
     private static String SERVERPORT;
     private static String SERVER_IP;
     private clientThread conexionCL = null;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,7 +97,24 @@ public class DisplayMessageActivity extends AppCompatActivity {
         Stop_t.setOnClickListener(Sender_string);
         Secure_mode.setOnClickListener(Sender_string);
 
+
+
+
+
+
+
+
+
+
+
+
 /*
+
+
+
+
+
+
 
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,19 +156,23 @@ public class DisplayMessageActivity extends AppCompatActivity {
     }
     public void sendCmd(String message){
         if (message!=null&&message.trim().length() > 0) {
-            conexionCL = new clientThread();
-            conexionCL.execute(SERVER_IP, SERVERPORT, message);
-
+           // conexionCL = new clientThread();
+             //conexionCL.execute(SERVER_IP, SERVERPORT, message);
+              message="http://"+SERVER_IP+":"+SERVERPORT+"/answer/android?comando="+message;
+              RequestTask conexionHttp;
+              conexionHttp=new RequestTask();
+              conexionHttp.execute(message);
+              String answer;
 
             try {
-                if (conexionCL.get() == null) {
 
-                    Toast.makeText(getApplicationContext(),
-                            "Unconnected", Toast.LENGTH_LONG).show();
+                if ((answer=conexionHttp.get()) == null) {
+
+                    Toast.makeText(getApplicationContext(),"Unconnected", Toast.LENGTH_LONG).show();
 
                 } else {
                     Toast.makeText(getApplicationContext(),
-                            "Sent", Toast.LENGTH_LONG).show();
+                            "connected \n Server response: "+answer, Toast.LENGTH_LONG).show();
 
                 }
                 //     textView2.setText(conexionCL.get());
@@ -198,27 +227,26 @@ public class DisplayMessageActivity extends AppCompatActivity {
             case R.id.seekBar:
                 value = seekBar.getProgress();
 
-                sendCmd("train select 3");
-                message="train speed "+ Integer.toString(value);
+                sendCmd("train+select+3");
+                message="train+speed+"+ Integer.toString(value);
                  colorTrain = (TextView) findViewById(R.id.idtrain);
 
 
                 colorTrain.setBackgroundResource(R.color.yellow_train);
 
-                Toast.makeText(getApplicationContext(),"New speed for renfe", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getApplicationContext(),"New speed for renfe", Toast.LENGTH_SHORT).show();
             break;
             case R.id.seekBar2:
                 value = seekBar.getProgress();
 
-                sendCmd("train select 4");
-                message="train speed "+ Integer.toString(value);
+                sendCmd("train+select+4");
+                message="train+speed+"+ Integer.toString(value);
                  colorTrain = (TextView) findViewById(R.id.idtrain);
 
 
                 colorTrain.setBackgroundResource(R.color.blue_train);
 
-                Toast.makeText(getApplicationContext(),"New speed for diesel" +
-                        "", Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(getApplicationContext(),"New speed for diesel" +"", Toast.LENGTH_SHORT).show();
 
             break;}
             if (message!=null)
@@ -245,7 +273,7 @@ public class DisplayMessageActivity extends AppCompatActivity {
 
                         message = "changer set 1";
                     }
-                        Toast.makeText(getApplicationContext(), "Cross changed", Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(getApplicationContext(), "Cross changed", Toast.LENGTH_SHORT).show();
 
                     break;
                 case R.id.slbarrier:
@@ -259,20 +287,20 @@ public class DisplayMessageActivity extends AppCompatActivity {
                             boxstatus.setText("UP");
                             message = "barrier set 1";
                         }
-                    Toast.makeText(getApplicationContext(), "Barrier changed", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), "Barrier changed", Toast.LENGTH_SHORT).show();
 
                     break;
                 case R.id.slant:
                     boxstatus = (TextView) findViewById(R.id.txanti);
 
                         if(boxstatus.getText().toString()=="Enable")
-                        {  message="anti enable 0";
-                            sendCmd("anti cancel");
+                        {  message="anti+enable+0";
+                            sendCmd("anti+cancel");
                             boxstatus.setText("Disable");
                         }
                         else {
                             boxstatus.setText("Enable");
-                            message = "anti enable 1";
+                            message = "anti+enable+1";
                         }
 
 
@@ -283,7 +311,7 @@ public class DisplayMessageActivity extends AppCompatActivity {
 
                             message = "s";
 
-                    Toast.makeText(getApplicationContext(), "emergency stop", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(), "emergency stop", Toast.LENGTH_SHORT).show();
 
                     break;
             }
@@ -471,4 +499,60 @@ class clientThread extends AsyncTask<String, Integer, String> {
 
     }
 
+}
+
+
+class RequestTask extends AsyncTask<String, String, String>{
+
+    @Override
+    protected String doInBackground(String... uri) {
+
+        URL url = null;
+        HttpURLConnection urlConnection = null;
+        String myString=null;
+        try {
+            url = new URL(uri[0]);
+             urlConnection = (HttpURLConnection) url.openConnection();
+            InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+        myString= IOUtils.toString(in, "UTF-8");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally
+             {
+                 urlConnection.disconnect();
+
+
+             }
+         return myString;
+        /**
+        HttpClient httpclient = new DefaultHttpClient();
+        HttpResponse response;
+        String responseString = null;
+        try {
+            response = httpclient.execute(new HttpGet(uri[0]));
+            StatusLine statusLine = response.getStatusLine();
+            if(statusLine.getStatusCode() == HttpStatus.SC_OK){
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                response.getEntity().writeTo(out);
+                responseString = out.toString();
+                out.close();
+            } else{
+                //Closes the connection.
+                response.getEntity().getContent().close();
+                throw new IOException(statusLine.getReasonPhrase());
+            }
+        } catch (ClientProtocolException e) {
+
+        } catch (IOException e) {
+
+        }   */
+
+    }
+
+    @Override
+    protected void onPostExecute(String result) {
+        super.onPostExecute(result);
+        //Do anything with response..
+    }
 }
