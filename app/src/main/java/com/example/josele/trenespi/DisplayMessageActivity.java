@@ -14,7 +14,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,30 +23,19 @@ import com.andexert.expandablelayout.library.ExpandableLayout;
 import org.apache.commons.io.IOUtils;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-
 import java.net.HttpURLConnection;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.net.SocketAddress;
 import java.net.URL;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.locks.Lock;
+
 
 //import android.view.Menu;
 //import android.support.v7.app.ActionBarActivity;
 
 
 public class DisplayMessageActivity extends AppCompatActivity {
-    //  private Socket socket;
     private static String SERVERPORT;
     private static String SERVER_IP;
-    private clientThread conexionCL = null;
 
 
     @Override
@@ -159,12 +147,19 @@ public class DisplayMessageActivity extends AppCompatActivity {
            // conexionCL = new clientThread();
              //conexionCL.execute(SERVER_IP, SERVERPORT, message);
               message="http://"+SERVER_IP+":"+SERVERPORT+"/answer/android?comando="+message;
-              RequestTask conexionHttp;
-              conexionHttp=new RequestTask();
-              conexionHttp.execute(message);
-              String answer;
+              //RequestTask conexionHttp;
+               new RequestTask(){
+                  protected void onPostExecute(String result) {
 
-            try {
+                      Toast.makeText(getApplicationContext(),
+                              "connected \n Server response: "+result, Toast.LENGTH_LONG).show();
+                      // here you have access to the context in which execute was called in first place.
+                      // You'll have to mark all the local variables final though..
+                  }
+              }.execute(message);
+             // String answer;
+
+           /* try {
 
                 if ((answer=conexionHttp.get()) == null) {
 
@@ -179,7 +174,7 @@ public class DisplayMessageActivity extends AppCompatActivity {
 
             } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
-            }
+            }*/
         } else {
             Toast.makeText(getApplicationContext(),
                     "None Command", Toast.LENGTH_LONG).show();
@@ -256,7 +251,7 @@ public class DisplayMessageActivity extends AppCompatActivity {
     final View.OnClickListener Sender_string = new View.OnClickListener() {
         public void onClick(final View v) {
             String message=null;
-            EditText boxsend=null;
+
             TextView boxstatus;
             //Inform the user the button has been clicked
             switch(v.getId()) {
@@ -315,8 +310,7 @@ public class DisplayMessageActivity extends AppCompatActivity {
 
                     break;
             }
-            if (boxsend!=null)
-               boxsend.setText("");
+
             sendCmd(message);
                 }
 
@@ -379,13 +373,13 @@ public class DisplayMessageActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        try {
+        /*try {
             if ((conexionCL != null) && conexionCL.close())
                 Toast.makeText(getApplicationContext(),
                         "The Socket died", Toast.LENGTH_LONG).show();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 /*
         conexionCL = new clientThread(SERVER_IP,SERVERPORT);
@@ -404,14 +398,14 @@ public class DisplayMessageActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        try {
+      /*  try {
             if ((conexionCL != null) && conexionCL.close())
                 Toast.makeText(getApplicationContext(),
                         "The Socket died", Toast.LENGTH_LONG).show();
 
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     @Override
@@ -438,68 +432,6 @@ public class DisplayMessageActivity extends AppCompatActivity {
 }
 
 
-class clientThread extends AsyncTask<String, Integer, String> {
-    /*private  int SERVERPORT ;
-    private  String SERVER_IP;
-*/    private Socket socket = null;
-
-
-    protected String mensaje;
-    private String recivido;
-
-/*
-      public String getRecivido() {
-          return recivido;
-      }
-
-      public void setEnviado(String enviado) {
-          this.mensaje = enviado;
-      }*/
-
-
-    public boolean close() throws IOException {
-        if ((socket==null)||  (!socket.isConnected())) {
-            return false;
-        }
-        socket.close();
-        return true;
-    }
-
-    @Override
-    protected String doInBackground(String... params) {
-        if (!params[0].isEmpty() && !params[1].isEmpty() && !params[2].isEmpty()) {
-            this.mensaje = params[2];
-            try {recivido="Reception isn't working";
-                //InetAddress serverAddr = InetAddress.getByName(params[0]);
-                SocketAddress sockaddr = new InetSocketAddress(params[0], Integer.parseInt(params[1]));
-                Socket socket = new Socket();
-                socket.connect(sockaddr, 1000);
-                //socket = new Socket(serverAddr, Integer.parseInt(params[1]));
-                PrintWriter salida = new PrintWriter(
-                        new OutputStreamWriter(socket.getOutputStream()), true);
-                BufferedReader entrada = new BufferedReader(
-                        new InputStreamReader(socket.getInputStream()));
-                salida.print((char) mensaje.length());
-
-
-                salida.println(mensaje);
-                recivido = entrada.readLine();
-
-                socket.close();
-            } catch (IOException e1) {
-
-                return null;
-            }
-        }
-        return recivido;
-    }
-
-    @Override
-    protected void onPostExecute(String parm) {
-
-    }
-
-}
 
 
 class RequestTask extends AsyncTask<String, String, String>{
@@ -520,7 +452,10 @@ class RequestTask extends AsyncTask<String, String, String>{
             e.printStackTrace();
         } finally
              {
-                 urlConnection.disconnect();
+
+                 if (urlConnection != null) {
+                     urlConnection.disconnect();
+                 }
 
 
              }
@@ -550,9 +485,5 @@ class RequestTask extends AsyncTask<String, String, String>{
 
     }
 
-    @Override
-    protected void onPostExecute(String result) {
-        super.onPostExecute(result);
-        //Do anything with response..
-    }
+
 }
