@@ -2,6 +2,7 @@ package com.example.josele.trenespi;
 
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -36,6 +37,7 @@ import java.net.URL;
 public class DisplayMessageActivity extends AppCompatActivity {
     private static String SERVERPORT;
     private static String SERVER_IP;
+    private static int Train_selected=0;
 
 
     @Override
@@ -76,6 +78,8 @@ public class DisplayMessageActivity extends AppCompatActivity {
         Button Cross_chang = (Button) findViewById(R.id.slcross);
         Button Stop_t = (Button) findViewById(R.id.sls);
         Button Secure_mode = (Button) findViewById(R.id.slant);
+        Button Abv = (Button) findViewById(R.id.abv);
+        Button Sound = (Button) findViewById(R.id.sound);
         Intent intent = getIntent();
         SERVER_IP = intent.getStringExtra(MainActivity.IP_MESSAGE);
         SERVERPORT = intent.getStringExtra(MainActivity.PORT_MESSAGE);
@@ -86,6 +90,8 @@ public class DisplayMessageActivity extends AppCompatActivity {
         Barrier_chang.setOnClickListener(Sender_string);
         Stop_t.setOnClickListener(Sender_string);
         Secure_mode.setOnClickListener(Sender_string);
+        Abv.setOnClickListener(Sender_string);
+        Sound.setOnClickListener(Sender_string);
 
 
 
@@ -220,17 +226,21 @@ public class DisplayMessageActivity extends AppCompatActivity {
            int value;
             String message=null;
             TextView colorTrain;
+            Button sonido;
+            Button abv;
             switch ( seekBar.getId()){
             case R.id.seekBar:
                 value = seekBar.getProgress()-28;
 
                 sendCmd("train+select+3");
                 message="train+speed+"+ Integer.toString(value);
-                 colorTrain = (TextView) findViewById(R.id.idtrain);
-
-
+                colorTrain = (TextView) findViewById(R.id.idtrain);
+                sonido =(Button) findViewById(R.id.sound);
+                abv =(Button) findViewById(R.id.abv);
                 colorTrain.setBackgroundResource(R.color.yellow_train);
-
+                sonido.setBackgroundResource(R.color.yellow_button);
+                abv.setBackgroundResource(R.color.yellow_button);
+                Train_selected=3;
                // Toast.makeText(getApplicationContext(),"New speed for renfe", Toast.LENGTH_SHORT).show();
             break;
             case R.id.seekBar2:
@@ -238,10 +248,13 @@ public class DisplayMessageActivity extends AppCompatActivity {
 
                 sendCmd("train+select+4");
                 message="train+speed+"+ Integer.toString(value);
-                 colorTrain = (TextView) findViewById(R.id.idtrain);
-
-
+                colorTrain = (TextView) findViewById(R.id.idtrain);
+                sonido =(Button) findViewById(R.id.sound);
+                abv =(Button) findViewById(R.id.abv);
+                sonido.setBackgroundResource(R.color.blue_button);
+                abv.setBackgroundResource(R.color.blue_button);
                 colorTrain.setBackgroundResource(R.color.blue_train);
+                Train_selected=4;
 
               //  Toast.makeText(getApplicationContext(),"New speed for diesel" +"", Toast.LENGTH_SHORT).show();
 
@@ -255,6 +268,7 @@ public class DisplayMessageActivity extends AppCompatActivity {
             String message=null;
 
             TextView boxstatus;
+            Button temp;
             //Inform the user the button has been clicked
             switch(v.getId()) {
 
@@ -309,6 +323,28 @@ public class DisplayMessageActivity extends AppCompatActivity {
                             message = "s";
 
                     //Toast.makeText(getApplicationContext(), "emergency stop", Toast.LENGTH_SHORT).show();
+
+                    break;
+                case R.id.abv:
+
+                    if(Train_selected==4||Train_selected==3) {
+                        sendCmd("train+select+"+Train_selected);
+                        message = "function+set+4";
+                    }else
+
+                     Toast.makeText(getApplicationContext(), "There is not train selected", Toast.LENGTH_SHORT).show();
+
+                    break;
+                case R.id.sound:
+                    boxstatus = (TextView) findViewById(R.id.Crossview);
+
+                    if(Train_selected==4||Train_selected==3)
+                    {
+                        sendCmd("train+select+"+Train_selected);
+                        message = "function+set+3";
+                    }
+                    else
+                     Toast.makeText(getApplicationContext(), "There is not train selected", Toast.LENGTH_SHORT).show();
 
                     break;
             }
@@ -395,7 +431,38 @@ public class DisplayMessageActivity extends AppCompatActivity {
         textView2.setTextSize(40);
         textView2.setText(conexionCL.getRecivido());
 */
+protected void onResume() {
 
+    super.onResume();
+    TextView colorTrain;
+    Button sonido;
+    Button abv;
+    if(Train_selected==3){
+        colorTrain = (TextView) findViewById(R.id.idtrain);
+        sonido =(Button) findViewById(R.id.sound);
+        abv =(Button) findViewById(R.id.abv);
+        colorTrain.setBackgroundResource(R.color.yellow_train);
+        sonido.setBackgroundResource(R.color.yellow_button);
+        abv.setBackgroundResource(R.color.yellow_button);
+
+    }else if(Train_selected==4){
+        colorTrain = (TextView) findViewById(R.id.idtrain);
+        sonido =(Button) findViewById(R.id.sound);
+        abv =(Button) findViewById(R.id.abv);
+        colorTrain.setBackgroundResource(R.color.blue_train);
+        sonido.setBackgroundResource(R.color.blue_button);
+        abv.setBackgroundResource(R.color.blue_button);
+
+
+    }
+        /*try {
+            if ((conexionCL != null) && conexionCL.close())
+                Toast.makeText(getApplicationContext(),
+                        "The Socket died", Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
+}
 
     @Override
     protected void onStop() {
