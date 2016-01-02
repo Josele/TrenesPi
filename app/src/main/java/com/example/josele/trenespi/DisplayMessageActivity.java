@@ -63,11 +63,13 @@ public class DisplayMessageActivity extends AppCompatActivity {
         expandableLayout2.setOnClickListener(close_expa);
         expandableLayout3.setOnClickListener(close_expa);
        SeekBar bar = (SeekBar)findViewById(R.id.seekBar); // make seekbar object
-        bar.setMax(28);
+
+        bar.setMax(54);
+
         bar.setOnSeekBarChangeListener(Sender_seekbar);
 
         SeekBar bar2 = (SeekBar)findViewById(R.id.seekBar2); // make seekbar object
-       bar2.setMax(28);
+       bar2.setMax(54);
         bar2.setOnSeekBarChangeListener(Sender_seekbar);
         Button Barrier_chang = (Button) findViewById(R.id.slbarrier);
 
@@ -192,13 +194,13 @@ public class DisplayMessageActivity extends AppCompatActivity {
             TextView valueview;
             switch ( seekBar.getId()){
                 case R.id.seekBar:
-                    value = seekBar.getProgress();
+                    value = seekBar.getProgress()-28;
                     valueview=(TextView)findViewById(R.id.txrenfe);
                     valueview.setText(Integer.toString(value));
 
                     break;
                 case R.id.seekBar2:
-                    value = seekBar.getProgress();
+                    value = seekBar.getProgress()-28;
                     valueview=(TextView)findViewById(R.id.txdiesel);
                     valueview.setText(Integer.toString(value));
 
@@ -220,7 +222,7 @@ public class DisplayMessageActivity extends AppCompatActivity {
             TextView colorTrain;
             switch ( seekBar.getId()){
             case R.id.seekBar:
-                value = seekBar.getProgress();
+                value = seekBar.getProgress()-28;
 
                 sendCmd("train+select+3");
                 message="train+speed+"+ Integer.toString(value);
@@ -232,7 +234,7 @@ public class DisplayMessageActivity extends AppCompatActivity {
                // Toast.makeText(getApplicationContext(),"New speed for renfe", Toast.LENGTH_SHORT).show();
             break;
             case R.id.seekBar2:
-                value = seekBar.getProgress();
+                value = seekBar.getProgress()-28;
 
                 sendCmd("train+select+4");
                 message="train+speed+"+ Integer.toString(value);
@@ -260,13 +262,13 @@ public class DisplayMessageActivity extends AppCompatActivity {
                     boxstatus = (TextView) findViewById(R.id.Crossview);
 
                     if(boxstatus.getText().toString()=="L")
-                    {  message="changer set 0";
+                    {  message="changer+set+0";
                         boxstatus.setText("R");
                     }
                         else {
                         boxstatus.setText("L");
 
-                        message = "changer set 1";
+                        message = "changer+set+1";
                     }
                        // Toast.makeText(getApplicationContext(), "Cross changed", Toast.LENGTH_SHORT).show();
 
@@ -275,12 +277,12 @@ public class DisplayMessageActivity extends AppCompatActivity {
                     boxstatus = (TextView) findViewById(R.id.Barrierview);
 
                         if(boxstatus.getText().toString()=="UP")
-                        {  message="barrier set 0";
+                        {  message="barrier+set+0";
                             boxstatus.setText("DOWN");
                         }
                         else {
                             boxstatus.setText("UP");
-                            message = "barrier set 1";
+                            message = "barrier+set+1";
                         }
                     //Toast.makeText(getApplicationContext(), "Barrier changed", Toast.LENGTH_SHORT).show();
 
@@ -290,7 +292,7 @@ public class DisplayMessageActivity extends AppCompatActivity {
 
                         if(boxstatus.getText().toString()=="Enable")
                         {  message="anti+enable+0";
-                            sendCmd("anti+cancel");
+                           // sendCmd("anti+cancel");
                             boxstatus.setText("Disable");
                         }
                         else {
@@ -439,7 +441,7 @@ class RequestTask extends AsyncTask<String, String, String>{
     @Override
     protected String doInBackground(String... uri) {
 
-        URL url = null;
+        URL url ;
         HttpURLConnection urlConnection = null;
         String myString=null;
         try {
