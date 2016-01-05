@@ -1,9 +1,12 @@
 package com.example.josele.trenespi;
 
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.StateListDrawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 
@@ -221,6 +224,7 @@ public class DisplayMessageActivity extends AppCompatActivity {
 
         }
 
+        @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
            int value;
@@ -228,6 +232,7 @@ public class DisplayMessageActivity extends AppCompatActivity {
             TextView colorTrain;
             Button sonido;
             Button abv;
+            int sdk = android.os.Build.VERSION.SDK_INT;
             switch ( seekBar.getId()){
             case R.id.seekBar:
                 value = seekBar.getProgress()-28;
@@ -237,10 +242,18 @@ public class DisplayMessageActivity extends AppCompatActivity {
                 colorTrain = (TextView) findViewById(R.id.idtrain);
                 sonido =(Button) findViewById(R.id.sound);
                 abv =(Button) findViewById(R.id.abv);
+
                 colorTrain.setBackgroundResource(R.color.yellow_train);
-                sonido.setBackgroundResource(R.color.yellow_button);
-                abv.setBackgroundResource(R.color.yellow_button);
-                Train_selected=3;
+
+                if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                    sonido.setBackgroundDrawable(getResources().getDrawable(R.drawable.buttonshapeyellow));
+                    abv.setBackgroundDrawable(getResources().getDrawable(R.drawable.buttonshapeyellow));
+                } else {
+                    sonido.setBackground(getResources().getDrawable(R.drawable.buttonshapeyellow));
+                    abv.setBackground(getResources().getDrawable(R.drawable.buttonshapeyellow));
+                }
+
+          Train_selected=3;
                // Toast.makeText(getApplicationContext(),"New speed for renfe", Toast.LENGTH_SHORT).show();
             break;
             case R.id.seekBar2:
@@ -251,8 +264,14 @@ public class DisplayMessageActivity extends AppCompatActivity {
                 colorTrain = (TextView) findViewById(R.id.idtrain);
                 sonido =(Button) findViewById(R.id.sound);
                 abv =(Button) findViewById(R.id.abv);
-                sonido.setBackgroundResource(R.color.blue_button);
-                abv.setBackgroundResource(R.color.blue_button);
+                if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                    sonido.setBackgroundDrawable(getResources().getDrawable(R.drawable.buttonshapeblue));
+                    abv.setBackgroundDrawable(getResources().getDrawable(R.drawable.buttonshapeblue));
+
+                } else {
+                    sonido.setBackground(getResources().getDrawable(R.drawable.buttonshapeblue));
+                    abv.setBackground(getResources().getDrawable(R.drawable.buttonshapeblue));
+                }
                 colorTrain.setBackgroundResource(R.color.blue_train);
                 Train_selected=4;
 
