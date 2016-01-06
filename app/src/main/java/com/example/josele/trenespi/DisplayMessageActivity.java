@@ -3,8 +3,7 @@ package com.example.josele.trenespi;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.StateListDrawable;
+
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
