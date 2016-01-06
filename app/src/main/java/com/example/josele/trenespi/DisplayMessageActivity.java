@@ -232,6 +232,9 @@ public class DisplayMessageActivity extends AppCompatActivity {
             TextView colorTrain;
             Button sonido;
             Button abv;
+            colorTrain = (TextView) findViewById(R.id.idtrain);
+            sonido =(Button) findViewById(R.id.sound);
+            abv =(Button) findViewById(R.id.abv);
             int sdk = android.os.Build.VERSION.SDK_INT;
             switch ( seekBar.getId()){
             case R.id.seekBar:
@@ -239,19 +242,14 @@ public class DisplayMessageActivity extends AppCompatActivity {
 
                 sendCmd("train+select+3");
                 message="train+speed+"+ Integer.toString(value);
-                colorTrain = (TextView) findViewById(R.id.idtrain);
-                sonido =(Button) findViewById(R.id.sound);
-                abv =(Button) findViewById(R.id.abv);
+
 
                 colorTrain.setBackgroundResource(R.color.yellow_train);
+                colorTrain.setText("Renfe");
 
-                if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
                     sonido.setBackgroundDrawable(getResources().getDrawable(R.drawable.buttonshapeyellow));
                     abv.setBackgroundDrawable(getResources().getDrawable(R.drawable.buttonshapeyellow));
-                } else {
-                    sonido.setBackground(getResources().getDrawable(R.drawable.buttonshapeyellow));
-                    abv.setBackground(getResources().getDrawable(R.drawable.buttonshapeyellow));
-                }
+
 
           Train_selected=3;
                // Toast.makeText(getApplicationContext(),"New speed for renfe", Toast.LENGTH_SHORT).show();
@@ -261,9 +259,6 @@ public class DisplayMessageActivity extends AppCompatActivity {
 
                 sendCmd("train+select+4");
                 message="train+speed+"+ Integer.toString(value);
-                colorTrain = (TextView) findViewById(R.id.idtrain);
-                sonido =(Button) findViewById(R.id.sound);
-                abv =(Button) findViewById(R.id.abv);
                 if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
                     sonido.setBackgroundDrawable(getResources().getDrawable(R.drawable.buttonshapeblue));
                     abv.setBackgroundDrawable(getResources().getDrawable(R.drawable.buttonshapeblue));
@@ -273,6 +268,7 @@ public class DisplayMessageActivity extends AppCompatActivity {
                     abv.setBackground(getResources().getDrawable(R.drawable.buttonshapeblue));
                 }
                 colorTrain.setBackgroundResource(R.color.blue_train);
+                colorTrain.setText("Diesel");
                 Train_selected=4;
 
               //  Toast.makeText(getApplicationContext(),"New speed for diesel" +"", Toast.LENGTH_SHORT).show();
@@ -285,7 +281,7 @@ public class DisplayMessageActivity extends AppCompatActivity {
     final View.OnClickListener Sender_string = new View.OnClickListener() {
         public void onClick(final View v) {
             String message=null;
-
+            int n_funtion;
             TextView boxstatus;
             Button temp;
             //Inform the user the button has been clicked
@@ -345,22 +341,38 @@ public class DisplayMessageActivity extends AppCompatActivity {
 
                     break;
                 case R.id.abv:
-
+                    boxstatus = (TextView) findViewById(R.id.txabv);
                     if(Train_selected==4||Train_selected==3) {
+                    if(boxstatus.getText().toString()=="OFF"){
+                        n_funtion=1;
+                        boxstatus.setText("ON");}
+                    else {
+                        n_funtion = 0;
+                        boxstatus.setText("OFF");
+                         }
+
                         sendCmd("train+select+"+Train_selected);
-                        message = "function+set+4";
+                        message = "train+function+4+"+n_funtion;
                     }else
 
                      Toast.makeText(getApplicationContext(), "There is not train selected", Toast.LENGTH_SHORT).show();
 
                     break;
                 case R.id.sound:
-                    boxstatus = (TextView) findViewById(R.id.Crossview);
-
+                    boxstatus = (TextView) findViewById(R.id.txsound);
                     if(Train_selected==4||Train_selected==3)
                     {
+                    if(boxstatus.getText().toString()=="OFF"){
+                        n_funtion=1;
+                        boxstatus.setText("ON");}
+                    else {
+                        n_funtion = 0;
+                        boxstatus.setText("OFF");
+                    }
+
                         sendCmd("train+select+"+Train_selected);
-                        message = "function+set+3";
+                        message = "train+function+3+"+n_funtion;
+
                     }
                     else
                      Toast.makeText(getApplicationContext(), "There is not train selected", Toast.LENGTH_SHORT).show();
@@ -450,27 +462,41 @@ public class DisplayMessageActivity extends AppCompatActivity {
         textView2.setTextSize(40);
         textView2.setText(conexionCL.getRecivido());
 */
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 protected void onResume() {
 
     super.onResume();
     TextView colorTrain;
     Button sonido;
     Button abv;
+    int sdk = android.os.Build.VERSION.SDK_INT;
     if(Train_selected==3){
         colorTrain = (TextView) findViewById(R.id.idtrain);
         sonido =(Button) findViewById(R.id.sound);
         abv =(Button) findViewById(R.id.abv);
         colorTrain.setBackgroundResource(R.color.yellow_train);
-        sonido.setBackgroundResource(R.color.yellow_button);
-        abv.setBackgroundResource(R.color.yellow_button);
-
+        colorTrain.setText("Renfe");
+        if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+            sonido.setBackgroundDrawable(getResources().getDrawable(R.drawable.buttonshapeyellow));
+            abv.setBackgroundDrawable(getResources().getDrawable(R.drawable.buttonshapeyellow));
+        } else {
+            sonido.setBackground(getResources().getDrawable(R.drawable.buttonshapeyellow));
+            abv.setBackground(getResources().getDrawable(R.drawable.buttonshapeyellow));
+        }
     }else if(Train_selected==4){
         colorTrain = (TextView) findViewById(R.id.idtrain);
         sonido =(Button) findViewById(R.id.sound);
         abv =(Button) findViewById(R.id.abv);
         colorTrain.setBackgroundResource(R.color.blue_train);
-        sonido.setBackgroundResource(R.color.blue_button);
-        abv.setBackgroundResource(R.color.blue_button);
+        colorTrain.setText("Diesel");
+        if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+            sonido.setBackgroundDrawable(getResources().getDrawable(R.drawable.buttonshapeblue));
+            abv.setBackgroundDrawable(getResources().getDrawable(R.drawable.buttonshapeblue));
+
+        } else {
+            sonido.setBackground(getResources().getDrawable(R.drawable.buttonshapeblue));
+            abv.setBackground(getResources().getDrawable(R.drawable.buttonshapeblue));
+        }
 
 
     }
