@@ -17,8 +17,8 @@
                 android:bottom="0dp"
                 />
             <size
-                android:width="64dp"
-                android:height="64dp"
+                android:width="32dp"
+                android:height="32dp"
                 />
         </shape>
     </item>
@@ -40,8 +40,8 @@
             android:bottom="0dp"
             />
         <size
-            android:width="64dp"
-            android:height="64dp"
+            android:width="32dp"
+            android:height="32dp"
             />
         </shape>
     </item>

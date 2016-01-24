@@ -2,6 +2,10 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
 
     android:layout="@layout/activity_settings">
+    <PreferenceCategory
+        android:title="Connection Settings"
+        android:key="pref_key_storage_settings">
+
     <EditTextPreference
         android:id="@+id/iprasp"
         android:title="Server IP"
@@ -17,6 +21,19 @@
         android:digits="0123456789"
         android:summary="Please provide the Port"
         android:maxLength="6"></EditTextPreference>
-
-
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="System Settings"
+        android:key="pref_key_storage_settings">
+    <ListPreference     android:title="Select the trains"
+        android:summary="Select the trains"
+        android:key="train"
+        android:defaultValue="1"
+        android:entries="@array/listArray"
+        android:entryValues="@array/listValues" />
+    <EditTextPreference android:title="Password"
+        android:key="pass"
+        android:summary="Please provide a new password"
+        android:inputType="textPassword" ></EditTextPreference>
+    </PreferenceCategory>
 </PreferenceScreen>

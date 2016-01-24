@@ -19,6 +19,8 @@ import android.support.v7.widget.Toolbar;
 public class MainActivity extends AppCompatActivity {
     public final static String IP_MESSAGE = "com.mycompany.myfirstapp.MESSAGE";
     public final static String PORT_MESSAGE = "com.mycompany.myfirstapp.MESSAGE2";
+    public final static String CHOOSED_TRAIN = "com.mycompany.myfirstapp.MESSAGE3";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +40,12 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, DisplayMessageActivity.class);
                 String message = settings.getString("pip", null);
                 String message2 = settings.getString("port", null);
+                String message3 = settings.getString("train", null);
                 if ((message != null) && (message2 != null)) {
 
                     intent.putExtra(IP_MESSAGE, message);
                     intent.putExtra(PORT_MESSAGE, message2);
+                    intent.putExtra(CHOOSED_TRAIN, message3);
 
 
                     startActivity(intent);
@@ -67,8 +71,10 @@ public class MainActivity extends AppCompatActivity {
                        builder .setPositiveButton(R.string.signin, new DialogInterface.OnClickListener() {
                            @Override
                            public void onClick(DialogInterface dialog, int id) {
+                               SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+                               String message4 = settings.getString("pass", "trenespi");
 
-                               if ((pass != null) && pass.getText().toString().equals("trenespi") ) {
+                               if ((pass != null) && pass.getText().toString().equals(message4) ) {
                                    Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
                                    startActivity(intent);
                                } else {

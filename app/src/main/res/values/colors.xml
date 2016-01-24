@@ -17,6 +17,7 @@
         <color name="yellow_train">#FFEB3B</color>
         <color name="yellow_button">#FFF176</color>
         <color name="yellow_button_p">#FFEB3B</color>
+        <color name="button_grey">#E0E0E0</color>
         <color name="blue_normal">@android:color/holo_blue_light</color>
 <color name="colorHighlight">#B6B6B6</color>
 </resources>
